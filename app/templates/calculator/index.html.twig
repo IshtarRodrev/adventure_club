@@ -1,0 +1,65 @@
+{# templates/calculator/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+    <div class="raw form-calc">
+        {{ form_start(form)}}
+
+        {{ form_widget(form._token) }}
+
+        <div class="col" id="some-custom-id">
+            {% if prevExpression %}
+                <div class="col mb-3 text-center" style="background: #e3e3e3; border: 2px; border-radius: 5px;">
+                    {{ prevExpression }}
+                </div>
+            {% else %}
+                {{ form_row(form.arg1) }}
+            {% endif %}
+        </div>
+
+        <div class="col" id="some-custom-id">
+            {{ form_row(form.operation) }}
+        </div>
+
+        <div class="col">
+            {{ form_row(form.arg2, {
+                'class': 'form-control'
+            }) }}
+        </div>
+
+        <div class="col mb-3 text-center">
+            {{ form_widget(form.next, {
+                'label': 'Далее',
+            }) }}
+        </div>
+        <div class="col mb-3 text-center">
+            {{ form_widget(form.calc, {
+                'label': 'Вычислить',
+            }) }}
+        </div>
+        {{ form_end(form, {'render_rest': false}) }}
+    </div>
+
+    <style type="text/css">
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+        .container .col {
+            padding: 5px;
+        }
+        .form-calc .btn {
+            max-width: 100%;
+            width: 100%;
+        }
+    </style>
+
+    {% if result %}
+        <div class="alert alert-success">
+            <b>{{ result }}</b>
+        </div>
+    {% endif %}
+{% endblock %}
